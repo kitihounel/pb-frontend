@@ -2,6 +2,41 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.14.
 
+## Settings for SemiColons Omission
+
+1. In `tslint.json`, set semicolon to `never`.
+
+```json
+"rules": {
+  "semicolon": {
+    "options": [
+      "never"
+    ]
+  }
+}
+```
+
+2. In `angular.json`, set `lintFix` to `true` in each `schematics`.
+
+```json
+"schematics": {
+  "@schematics/angular:application": {
+    "strict": true,
+    "lintFix": true
+  },
+  "@schematics/angular:class": {
+    "lintFix": true
+  },
+  "@schematics/angular:component": {
+    "lintFix": true
+  },
+  "@schematics/angular:directive": {
+    "lintFix": true
+  }
+  ...
+}
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
