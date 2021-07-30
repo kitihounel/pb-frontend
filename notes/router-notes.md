@@ -14,7 +14,7 @@ ng generate module dummy -m app --routing
 The command above will genrate a folder named `dummy` within the `src/app` folder with
 two files: `dummy.module.ts` and `dummy-routing.module.ts`.
 
-Note that if you have an `app-routing.mdule.ts` file where you declared some routes, you must include
+Note that if you have an `app-routing.module.ts` file where you declared some routes, you must include
 your new module class before the `AppRoutingModule` class so that wildcard routes won't hide
 your module routes.
 
@@ -74,7 +74,7 @@ export class AdminRoutingModule {}
 ```
 
 The `AdminComponent` template shoud include a `router-outlet` element for intern routing.
-The code sample also uses relative routing. Usind path begining with `./` indicates routing
+The code sample also uses relative routing. Using path begining with `./` indicates routing
 inside the current module.
 ```html
 <h3>ADMIN</h3>
@@ -104,7 +104,7 @@ user's account is activated.
 The CanActivate guard is the tool to manage these navigation business rules.
 
 The following example extends the `admin` example shown above by creating an `auth` module with a guard,
-a login service, and login a component used to manage user authentication.
+a login service, and a login component used to manage user authentication.
 
 **Note:** The login component can't be included in the `admin` module since it is a restricted section,
 but users should be able to login. Hence access to login should be available to everyone.
