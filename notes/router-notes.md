@@ -19,7 +19,7 @@ your new module class before the `AppRoutingModule` class so that wildcard route
 your module routes.
 
 Excerpt from the `AppModule` class.
-```js
+```ts
 @NgModule({
   imports: [
     BrowserModule,
@@ -49,7 +49,7 @@ ng generate component admin/manage-heroes
 Now in the routing module, you can declare routes. Note that in the following example,
 since the path to `AdminDashboardComponent` is the empty string, accessing `site.com/admin` will
 display the `AdminComponent` and the `AdminDashboardComponent` at the `router-outlet` emplacement.
-```js
+```ts
 const adminRoutes: Routes = [
   {
     path: 'admin',
@@ -115,7 +115,7 @@ ng generate guard auth/auth
 ```
 
 The code generated for the guard should be similar to this:
-```js
+```ts
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
