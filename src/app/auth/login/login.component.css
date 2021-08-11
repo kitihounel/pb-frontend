@@ -5,7 +5,7 @@
 }
 
 .hero.is-success {
-  background: #37cfdc;
+  background: linear-gradient(to right, #5B86E5, #36D1DC);
 }
 
 .hero .nav, .hero.is-success .nav {
