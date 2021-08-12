@@ -9,27 +9,55 @@
           <figure class="avatar">
             <img src="/assets/images/login-128x.png">
           </figure>
-          <form>
+
+          <form (ngSubmit)="onSubmit()" #f="ngForm">
             <div class="field">
               <div class="control">
-                <input class="input is-normal" type="email" placeholder="Your Username" autofocus="">
+                <input
+                    autocomplete="off"
+                    autofocus
+                    class="input is-normal"
+                    name="username"
+                    pattern="^[a-z][a-z]{1,30}$"
+                    placeholder="Your Username"
+                    required
+                    type="text"
+                    [(ngModel)]="username">
               </div>
             </div>
 
             <div class="field">
               <div class="control">
-                <input class="input is-normal" type="password" placeholder="Your Password">
+                <input
+                    class="input is-normal"
+                    name="password"
+                    placeholder="Your Password"
+                    required
+                    type="password"
+                    [(ngModel)]="password">
               </div>
             </div>
 
-            <button class="button is-block is-info is-normal is-fullwidth">
+            <button
+                class="button is-block is-info is-normal is-fullwidth"
+                type="submit"
+                [disabled]="!f.form.valid">
               Login
             </button>
           </form>
+
+          <p *ngIf="loginFailure" class="has-text-danger has-text-weight-bold mt-4">
+            Wrong username or password
+          </p>
+  
+          <p *ngIf="error" class="has-text-danger has-text-weight-bold mt-4">
+            Unable to login. Try again later.
+          </p>
         </div>
 
         <p class="has-text-white">
-          <a href="#">Forgot Password</a> &nbsp;·&nbsp;
+          <a href="#">Forgot Password</a>
+          &nbsp;·&nbsp;
           <a href="#">Need Help?</a>
         </p>
       </div>

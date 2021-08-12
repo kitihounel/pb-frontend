@@ -24,7 +24,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<boolean> {
     const url = `${env.apiUrl}/login`
-    const payload = { username: 'kofi', password: 'password' } 
+    const payload = { username, password } 
     return this.http.post<User>(url, payload).pipe(
       tap((user) => this.setUser(user)),
       map(() => true)
