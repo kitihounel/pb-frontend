@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators'
 import { environment as env } from 'src/environments/environment'
 
 export interface User {
+  username: string
   name: string
   role: string
   token: string

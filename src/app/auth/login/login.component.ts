@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
         const redirectUrl = this.authService.redirectUrl || '/'
         this.router.navigate([redirectUrl])
       },
-      (err: HttpErrorResponse) => {
-        this.loginFailure = err.status == 401
+      (error: HttpErrorResponse) => {
+        this.loginFailure = error.status == 401
         this.error = !this.loginFailure
       }
     )
