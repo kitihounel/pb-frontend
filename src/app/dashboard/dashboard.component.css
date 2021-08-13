@@ -1,3 +1,7 @@
+section {
+  font-family: Georama, Roboto, 'sans-serif';
+}
+
 .hero.welcome.is-info {
   background: #36D1DC;
   background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);
