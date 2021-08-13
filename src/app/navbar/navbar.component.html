@@ -1,5 +1,5 @@
 <nav class="navbar is-white">
-  <div class="container">
+  <div class="container max-width">
     <div class="navbar-brand">
       <a class="navbar-item brand-text" href="/">
         Prescription Book
@@ -25,8 +25,12 @@
 
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-light" (click)="logout()">
+          <div class="buttons">            
+            <a class="button is-info user-logo">
+              {{ user.username[0] | uppercase }}
+            </a>
+
+            <a class="button is-danger" (click)="logout()">
               Logout
             </a>
           </div>

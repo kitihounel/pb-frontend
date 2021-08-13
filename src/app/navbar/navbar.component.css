@@ -11,3 +11,7 @@ nav.navbar {
   font-size: 14px;
   font-weight: 700;
 }
+
+.user-logo {
+  border-radius: 50%;
+}
