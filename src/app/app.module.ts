@@ -9,6 +9,8 @@ import { HomeComponent } from './home/home.component'
 import { NavbarComponent } from './navbar/navbar.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { SidebarComponent } from './sidebar/sidebar.component'
+import InitialsPipe from 'src/utils/InitialsPipe'
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { SidebarComponent } from './sidebar/sidebar.component'
     HomeComponent,
     NavbarComponent,
     DashboardComponent,
-    SidebarComponent
+    SidebarComponent,
+    InitialsPipe,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
