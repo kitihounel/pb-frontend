@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { SidebarComponent } from './sidebar/sidebar.component'
 import InitialsPipe from 'src/utils/InitialsPipe'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
+import { ModalModule } from './modal/modal.module'
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     BrowserModule,
     HttpClientModule,
     AuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

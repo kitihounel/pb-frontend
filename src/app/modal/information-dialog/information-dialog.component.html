@@ -1,0 +1,19 @@
+<div class="modal" [class.is-active]="active">
+  <div class="modal-background" (click)="close()"></div>
+  <div class="modal-content">
+    <div class="message">
+      <div class="message-header">
+        <p>{{ title }}</p>
+        <button class="delete" aria-label="delete" (click)="close()"></button>
+      </div>
+      <div class="message-body">
+        <p class="my-2" *ngFor="let item of content">
+          {{ item }}
+        </p>
+        <div class="buttons is-right">
+          <button class="button is-info has-text-weight-bold" (click)="close()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
