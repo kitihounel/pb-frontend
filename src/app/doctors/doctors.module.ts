@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 import { DoctorsRoutingModule } from './doctors-routing.module'
 import { DoctorListComponent } from './doctor-list/doctor-list.component'
 import { DoctorHomeComponent } from './doctor-home/doctor-home.component'
-
+import { ModalModule } from '../modal/modal.module'
 
 @NgModule({
   declarations: [
@@ -13,7 +13,8 @@ import { DoctorHomeComponent } from './doctor-home/doctor-home.component'
   ],
   imports: [
     CommonModule,
-    DoctorsRoutingModule
+    DoctorsRoutingModule,
+    ModalModule,
   ]
 })
 export class DoctorsModule { }

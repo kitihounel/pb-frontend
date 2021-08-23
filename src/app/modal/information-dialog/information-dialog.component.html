@@ -1,4 +1,4 @@
-<div class="modal" [class.is-active]="active">
+<div class="modal" [class.is-active]="active" trapFocus>
   <div class="modal-background" (click)="close()"></div>
   <div class="modal-content">
     <div class="message">
@@ -11,7 +11,9 @@
           {{ item }}
         </p>
         <div class="buttons is-right">
-          <button class="button is-info has-text-weight-bold" (click)="close()">Close</button>
+          <button class="button is-info has-text-weight-bold js-default-focus" (click)="close()" #btn>
+            Close
+          </button>
         </div>
       </div>
     </div>

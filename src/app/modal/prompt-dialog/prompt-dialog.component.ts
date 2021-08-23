@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core'
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -8,10 +8,13 @@ import { Subject } from 'rxjs'
 })
 export class PromptDialogComponent implements OnInit {
 
+  @ViewChild('el', { static: true }) el!: ElementRef
+  @ViewChild('input', { static: true }) input!: ElementRef
+
   title   = ''
   content = [] as string[]
   active  = false
-  input = ''
+  text = ''
 
   private closeSubject = new Subject<unknown>()
 
@@ -21,19 +24,20 @@ export class PromptDialogComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if (event.key === 'Enter')
-      this.close(true)
     if (event.key === 'Escape')
       this.close(false)
+    if (event.key === 'Enter')
+      this.close(true)
   }
 
   open() {
     this.active = true
+    this.input.nativeElement.focus()
   }
 
   close(b: boolean) {
     this.active = false
-    this.closeSubject.next({ accept: b, value: this.input.trim() })
+    this.closeSubject.next({ accept: b, value: this.text.trim() })
   }
 
   afterClose() {

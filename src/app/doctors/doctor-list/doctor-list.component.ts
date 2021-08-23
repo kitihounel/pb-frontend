@@ -8,14 +8,7 @@ import { ModalService } from 'src/app/modal/modal.service';
 })
 export class DoctorListComponent implements OnInit {
 
-  constructor(private modalService: ModalService) { }
+  constructor(private modalService: ModalService) {}
 
-  ngOnInit(): void {
-  }
-
-  onClick() {
-    this.modalService.showPrompt('title', ['content'], (v) => {
-      console.log('The user clicks', v)
-    })
-  }
+  ngOnInit(): void {}
 }

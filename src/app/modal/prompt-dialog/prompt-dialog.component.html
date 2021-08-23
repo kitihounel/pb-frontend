@@ -1,5 +1,5 @@
-<div class="modal" [class.is-active]="active">
-  <div class="modal-background is-overlay" (click)="close(false)"></div>
+<div class="modal is-active" trapFocus #el>
+  <div class="modal-background" (click)="close(false)"></div>
   <div class="modal-content">
     <div class="message">
       <div class="message-header">
@@ -12,7 +12,7 @@
         </p>
 
         <div class="control my-4">
-          <input autofocus class="input" type="text" [(ngModel)]="input">
+          <input class="input js-default-focus" type="text" [(ngModel)]="text" #input>
         </div>
 
         <div class="buttons is-right">

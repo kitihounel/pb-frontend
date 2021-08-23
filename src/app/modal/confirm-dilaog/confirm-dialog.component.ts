@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -7,6 +7,8 @@ import { Subject } from 'rxjs'
   styleUrls: ['./confirm-dialog.component.css']
 })
 export class ConfirmDialogComponent implements OnInit {
+
+  @ViewChild('acceptBtn', { static: true }) acceptBtn!: ElementRef
 
   title   = ''
   content = [] as string[]
@@ -18,8 +20,17 @@ export class ConfirmDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape')
+      this.close(false)
+    if (event.key === 'Enter')
+      this.close(true)
+  }
+
   open() {
     this.active = true
+    this.acceptBtn.nativeElement.focus()
   }
 
   close(b: boolean) {

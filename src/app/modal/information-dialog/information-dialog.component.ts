@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -7,7 +7,9 @@ import { Subject } from 'rxjs'
   styleUrls: ['./information-dialog.component.css']
 })
 export class InformationDialogComponent implements OnInit {
-  
+
+  @ViewChild('btn', { static: true }) btn!: ElementRef
+
   title   = ''
   content = [] as string[]
   active  = false
@@ -18,8 +20,15 @@ export class InformationDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape' || event.key === 'Enter')
+      this.close()
+  }
+
   open() {
     this.active = true
+    this.btn.nativeElement.focus()
   }
 
   close() {

@@ -7,6 +7,8 @@ import {
   ComponentRef
 } from '@angular/core'
 
+type InsertPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,17 +32,15 @@ export class DomService {
     return componentRef
   }
 
-  attachComponent(componentRef: ComponentRef<unknown>, parent: Element) {
+  attachComponent(componentRef: ComponentRef<unknown>, sibling: Element, position: InsertPosition) {
     // 2. Attach component to the appRef so that it's inside the ng component tree
     this.appRef.attachView(componentRef.hostView)
 
     // 3. Get DOM element from component
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement
+    const el = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement
 
-    // 4. Append DOM element to the body
-    parent.appendChild(domElem)
-
-    return
+    // 4. Append DOM element to specified position
+    sibling.insertAdjacentElement(position, sibling)
   }
 
   removeComponent(componentRef: ComponentRef<unknown>) {

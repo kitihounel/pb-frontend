@@ -13,7 +13,7 @@ export class ModalService {
 
   showInfo(title: string, content: string[], onClose?: () => any) {
     const compRef = this.domService.createComponent(InformationDialogComponent, { title, content })
-    this.domService.attachComponent(compRef, document.body)
+    this.domService.attachComponent(compRef, document.body, 'beforeend')
 
     const comp = compRef.instance as InformationDialogComponent
     comp.afterClose().subscribe(() => {
@@ -25,7 +25,7 @@ export class ModalService {
 
   showConfirm(title: string, content: string[], onClose?: (b: boolean) => any) {
     const compRef = this.domService.createComponent(ConfirmDialogComponent, { title, content })
-    this.domService.attachComponent(compRef, document.body)
+    this.domService.attachComponent(compRef, document.body, 'beforeend')
 
     const comp = compRef.instance as ConfirmDialogComponent
     comp.afterClose().subscribe((value) => {
@@ -37,7 +37,7 @@ export class ModalService {
 
   showPrompt(title: string, content: string[], onClose?: (data: any) => any) {
     const compRef = this.domService.createComponent(PromptDialogComponent, { title, content })
-    this.domService.attachComponent(compRef, document.body)
+    this.domService.attachComponent(compRef, document.body, 'beforeend')
 
     const comp = compRef.instance as PromptDialogComponent
     comp.afterClose().subscribe((value) => {
