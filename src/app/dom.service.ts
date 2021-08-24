@@ -40,7 +40,7 @@ export class DomService {
     const el = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement
 
     // 4. Append DOM element to specified position
-    sibling.insertAdjacentElement(position, sibling)
+    sibling.insertAdjacentElement(position, el)
   }
 
   removeComponent(componentRef: ComponentRef<unknown>) {
