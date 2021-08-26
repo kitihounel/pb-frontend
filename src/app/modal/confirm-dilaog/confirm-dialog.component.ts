@@ -8,7 +8,7 @@ import { Subject } from 'rxjs'
 })
 export class ConfirmDialogComponent implements OnInit {
 
-  @ViewChild('acceptBtn', { static: true }) acceptBtn!: ElementRef
+  @ViewChild('defaultNode', { static: true }) defaultNode!: ElementRef
 
   title   = ''
   content = [] as string[]
@@ -30,7 +30,7 @@ export class ConfirmDialogComponent implements OnInit {
 
   open() {
     this.active = true
-    this.acceptBtn.nativeElement.focus()
+    this.defaultNode.nativeElement.focus()
   }
 
   close(b: boolean) {

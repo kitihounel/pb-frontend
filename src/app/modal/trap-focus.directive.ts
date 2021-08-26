@@ -1,45 +1,48 @@
-import { Directive, ElementRef, AfterViewInit, OnDestroy } from '@angular/core'
+import { Directive, ElementRef, AfterViewInit, OnDestroy, Input } from '@angular/core'
 
 @Directive({
   selector: '[trapFocus]'
 })
 export class TrapFocusDirective implements AfterViewInit, OnDestroy {
 
+  @Input('trapFocus')
+  component: any
+
   private keydownListener: any
   private focusoutListener: any
 
   constructor(private el: ElementRef) {}
-  
+
   ngAfterViewInit() {
-    this.trapFocus(this.el.nativeElement)
+    this.setupFocusTrap(this.el.nativeElement)
   }
 
   ngOnDestroy() {
     if (this.keydownListener)
       document.removeEventListener('keydown', this.keydownListener)
     if (this.focusoutListener)
-      document.body.removeEventListener('focusout', this.focusoutListener)
+      document.removeEventListener('focusout', this.focusoutListener)
   }
 
-  trapFocus(element: any) {
+  setupFocusTrap(element: any) {
     const query = element.querySelectorAll('a[href], button, details, input, select, textarea')
     const focusable = Array.from(query).filter((el: any) => !el.disabled)
     const firstFocusable: any = focusable[0]
     const lastFocusable: any = focusable[focusable.length - 1]
-    
-    this.keydownListener = (e: KeyboardEvent) => {
-      const tabPressed = e.code === 'Tab'
+
+    this.keydownListener = (ev: KeyboardEvent) => {
+      const tabPressed = ev.code === 'Tab'
       if (!tabPressed)
         return
-      if (e.shiftKey) {
+      if (ev.shiftKey) {
         if (document.activeElement === firstFocusable) {
           lastFocusable.focus()
-          e.preventDefault()
+          ev.preventDefault()
         }
       } else {
         if (document.activeElement === lastFocusable) {
           firstFocusable.focus()
-          e.preventDefault()
+          ev.preventDefault()
         }
       }
     }
@@ -48,11 +51,13 @@ export class TrapFocusDirective implements AfterViewInit, OnDestroy {
     this.focusoutListener = (ev: FocusEvent) => {
       if (!ev.relatedTarget) {
         document.addEventListener('focusin', (ev: FocusEvent) => {
-          if (!ev.relatedTarget || !this.el.nativeElement.contains(ev.relatedTarget))
-            this.el.nativeElement.querySelector('.js-default-focus').focus()
-        }, { once: true })
+          if (!ev.relatedTarget || !this.el.nativeElement.contains(ev.relatedTarget)) {
+            ev.stopPropagation()
+            this.component.defaultNode.nativeElement.focus()
+          }
+        }, { once: true, capture: true })
       }
     }
-    this.el.nativeElement.addEventListener('focusout', this.focusoutListener)
+    document.addEventListener('focusout', this.focusoutListener)
   }
 }

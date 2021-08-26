@@ -9,7 +9,7 @@ import { Subject } from 'rxjs'
 export class PromptDialogComponent implements OnInit {
 
   @ViewChild('el', { static: true }) el!: ElementRef
-  @ViewChild('input', { static: true }) input!: ElementRef
+  @ViewChild('defaultNode', { static: true }) defaultNode!: ElementRef
 
   title   = ''
   content = [] as string[]
@@ -32,7 +32,7 @@ export class PromptDialogComponent implements OnInit {
 
   open() {
     this.active = true
-    this.input.nativeElement.focus()
+    this.defaultNode.nativeElement.focus()
   }
 
   close(b: boolean) {

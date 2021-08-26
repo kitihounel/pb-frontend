@@ -11,39 +11,30 @@ export class ModalService {
 
   constructor(private domService: DomService) {}
 
-  showInfo(title: string, content: string[], onClose?: () => any) {
+  createInfoDialog(title: string, content: string[]) {
     const compRef = this.domService.createComponent(InformationDialogComponent, { title, content })
     this.domService.attachComponent(compRef, document.body, 'beforeend')
 
     const comp = compRef.instance as InformationDialogComponent
-    comp.afterClose().subscribe(() => {
-      this.domService.removeComponent(compRef)
-      onClose?.()
-    })
-    comp.open()
+    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+    return comp
   }
 
-  showConfirm(title: string, content: string[], onClose?: (b: boolean) => any) {
+  createConfirmDialog(title: string, content: string[]) {
     const compRef = this.domService.createComponent(ConfirmDialogComponent, { title, content })
     this.domService.attachComponent(compRef, document.body, 'beforeend')
 
     const comp = compRef.instance as ConfirmDialogComponent
-    comp.afterClose().subscribe((value) => {
-      this.domService.removeComponent(compRef)
-      onClose?.(value)
-    })
-    comp.open()
+    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+    return comp
   }
 
-  showPrompt(title: string, content: string[], onClose?: (data: any) => any) {
+  createPromptDialog(title: string, content: string[]) {
     const compRef = this.domService.createComponent(PromptDialogComponent, { title, content })
     this.domService.attachComponent(compRef, document.body, 'beforeend')
 
     const comp = compRef.instance as PromptDialogComponent
-    comp.afterClose().subscribe((value) => {
-      this.domService.removeComponent(compRef)
-      onClose?.(value)
-    })
-    comp.open()
+    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+    return comp
   }
 }

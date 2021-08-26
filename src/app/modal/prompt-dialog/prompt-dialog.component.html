@@ -1,4 +1,4 @@
-<div class="modal is-active" trapFocus #el>
+<div class="modal is-active" [trapFocus]="this" #el>
   <div class="modal-background" (click)="close(false)"></div>
   <div class="modal-content">
     <div class="message">
@@ -12,7 +12,7 @@
         </p>
 
         <div class="control my-4">
-          <input class="input js-default-focus" type="text" [(ngModel)]="text" #input>
+          <input class="input" type="text" [(ngModel)]="text" #defaultNode>
         </div>
 
         <div class="buttons is-right">

@@ -8,7 +8,7 @@ import { Subject } from 'rxjs'
 })
 export class InformationDialogComponent implements OnInit {
 
-  @ViewChild('btn', { static: true }) btn!: ElementRef
+  @ViewChild('defaultNode', { static: true }) defaultNode!: ElementRef
 
   title   = ''
   content = [] as string[]
@@ -28,7 +28,7 @@ export class InformationDialogComponent implements OnInit {
 
   open() {
     this.active = true
-    this.btn.nativeElement.focus()
+    this.defaultNode.nativeElement.focus()
   }
 
   close() {

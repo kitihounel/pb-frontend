@@ -1,4 +1,4 @@
-<div class="modal" [class.is-active]="active" trapFocus>
+<div class="modal" [class.is-active]="active" [trapFocus]="this">
   <div class="modal-background" (click)="close(false)"></div>
   <div class="modal-content">
     <div class="message">
@@ -10,7 +10,7 @@
       <div class="message-body">
         <p class="my-2" *ngFor="let item of content">{{ content }}</p>
         <div class="buttons is-right">
-          <button class="button is-success has-text-weight-bold js-default-focus" (click)="close(true)" #acceptBtn>
+          <button class="button is-success has-text-weight-bold" (click)="close(true)" #defaultNode>
             Accept
           </button>
           <button class="button is-danger has-text-weight-bold" (click)="close(false)">Cancel</button>
