@@ -1,0 +1,62 @@
+<nav class="pagination is-right" role="navigation" aria-label="pagination">
+  <ul class="pagination-list">
+    <li>
+      <a  class="pagination-link has-text-white has-background-link"
+          aria-label="Goto first page"
+          (click)="onFirst()"
+          [attr.disabled]="currentPage == 1 ? true : null">
+        <span class="icon">
+          <i class="material-icons">first_page</i>
+        </span>
+      </a>
+    </li>
+
+    <li>
+      <a  class="pagination-link has-text-white has-background-link"
+          aria-label="Goto previous page"
+          (click)="onPrevious()"
+          [attr.disabled]="currentPage == 1 ? true : null">
+        <span class="icon">
+          <i class="material-icons">navigate_before</i>
+        </span>
+      </a>
+    </li>
+
+    <li>
+      <input  class="input is-normal"
+              step="1"
+              type="number"
+              [attr.min]="1"
+              [attr.max]="maxPage"
+              [attr.value]="currentPage"
+              (keydown.enter)="onInput($event)"
+              #input>
+    </li>
+
+    <li class="has-text-weight-bold px-2">
+      / {{ maxPage }}
+    </li>
+
+    <li>
+      <a  class="pagination-link has-text-white has-background-link"
+          aria-label="Goto next page"
+          (click)="onNext()"
+          [attr.disabled]="currentPage == maxPage ? true : null">
+        <span class="icon">
+          <i class="material-icons">navigate_next</i>
+        </span>
+      </a>
+    </li>
+
+    <li>
+      <a  class="pagination-link has-text-white has-background-link"
+          aria-label="Goto last page"
+          (click)="onLast()"
+          [attr.disabled]="currentPage == maxPage ? true : null">
+        <span class="icon">
+          <i class="material-icons">last_page</i>
+        </span>
+      </a>
+    </li>
+  </ul>
+</nav>

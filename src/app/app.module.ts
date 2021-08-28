@@ -12,6 +12,7 @@ import { SidebarComponent } from './sidebar/sidebar.component'
 import InitialsPipe from 'src/utils/InitialsPipe'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 import { ModalModule } from './modal/modal.module'
+import { SharedModule } from './shared/shared.module'
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ModalModule } from './modal/modal.module'
     HttpClientModule,
     AuthModule,
     AppRoutingModule,
-    ModalModule
+    ModalModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

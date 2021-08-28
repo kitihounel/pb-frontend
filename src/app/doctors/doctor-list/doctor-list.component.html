@@ -33,41 +33,9 @@
     </table>
   </div>
 
-  <nav class="pagination is-right" role="navigation" aria-label="pagination">
-    <ul class="pagination-list">
-      <li>
-        <a class="pagination-link" aria-label="Goto first page">
-          <span class="icon">
-            <i class="material-icons">first_page</i>
-          </span>
-        </a>
-      </li>
-      <li>
-        <a class="pagination-link" aria-label="Goto previous page">
-          <span class="icon">
-            <i class="material-icons">navigate_before</i>
-          </span>
-        </a>
-      </li>
-      <li>
-        <a class="pagination-link is-current" aria-label="Current page" aria-current="page">
-          A/B
-        </a>
-      </li>
-      <li>
-        <a class="pagination-link" aria-label="Goto next page">
-          <span class="icon">
-            <i class="material-icons">navigate_next</i>
-          </span>
-        </a>
-      </li>
-      <li>
-        <a class="pagination-link" aria-label="Goto last page">
-          <span class="icon">
-            <i class="material-icons">last_page</i>
-          </span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <app-pagination
+    [currentPage]="1"
+    [maxPage]="20"
+    (notify)="onPageChange($event)">
+  </app-pagination>
 </section>

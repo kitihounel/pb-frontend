@@ -5,6 +5,7 @@ import { DoctorsRoutingModule } from './doctors-routing.module'
 import { DoctorListComponent } from './doctor-list/doctor-list.component'
 import { DoctorHomeComponent } from './doctor-home/doctor-home.component'
 import { ModalModule } from '../modal/modal.module'
+import { SharedModule } from "../shared/shared.module"
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ModalModule } from '../modal/modal.module'
     CommonModule,
     DoctorsRoutingModule,
     ModalModule,
+    SharedModule
   ]
 })
-export class DoctorsModule { }
+export class DoctorsModule {}

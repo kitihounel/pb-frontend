@@ -1,0 +1,8 @@
+input {
+  min-width: 80px;
+  max-width: 80px;
+}
+
+a.pagination-link[disabled] {
+  pointer-events: none;
+}

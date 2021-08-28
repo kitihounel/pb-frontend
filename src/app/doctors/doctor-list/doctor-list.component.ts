@@ -11,4 +11,8 @@ export class DoctorListComponent implements OnInit {
   constructor(private modalService: ModalService) {}
 
   ngOnInit(): void {}
+
+  onPageChange($event: any) {
+    console.log($event)
+  } 
 }
