@@ -7,8 +7,10 @@ import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef }
 })
 export class PaginationComponent implements OnInit {
 
-  @Input() currentPage!: number
+  @Input() startPage!: number
   @Input() maxPage!: number
+
+  page!: number
 
   @Output() notify = new EventEmitter<number>()
 
@@ -16,40 +18,42 @@ export class PaginationComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.page = this.startPage
+  }
 
   onFirst() {
-    this.currentPage = 1
+    this.page = 1
     this.emitChangeEvent()
   }
 
   onPrevious() {
-    this.currentPage -= 1
+    this.page -= 1
     this.emitChangeEvent()
   }
 
   onNext() {
-    this.currentPage += 1
+    this.page += 1
     this.emitChangeEvent()
   }
 
   onLast() {
-    this.currentPage = this.maxPage
+    this.page = this.maxPage
     this.emitChangeEvent()
   }
 
-  onInput($event: any) {
+  onInput() {
     const el = this.input.nativeElement as HTMLInputElement
     if (el.validity.valid) {
       const value = parseInt(el.value)
       if (!isNaN(value)) {
-        this.currentPage = value
+        this.page = value
         this.emitChangeEvent()
       }
     }
   }
 
   private emitChangeEvent() {
-    this.notify.emit(this.currentPage)
+    this.notify.emit(this.page)
   }
 }
