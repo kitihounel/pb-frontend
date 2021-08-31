@@ -5,7 +5,7 @@ import { DoctorsRoutingModule } from './doctors-routing.module'
 import { DoctorListComponent } from './doctor-list/doctor-list.component'
 import { DoctorHomeComponent } from './doctor-home/doctor-home.component'
 import { ModalModule } from '../modal/modal.module'
-import { SharedModule } from "../shared/shared.module"
+import { SharedModule } from 'src/app/shared/shared.module'
 
 @NgModule({
   declarations: [

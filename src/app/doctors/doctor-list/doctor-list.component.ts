@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 import { ModalService } from 'src/app/modal/modal.service'
-import { CrudTableViewConfig } from "src/app/shared/crud-table-view/crud-table-view.component"
+import { CrudTableViewMetadata } from "src/app/shared/crud-table-view/crud-table-view.component"
 import { environment as env } from 'src/environments/environment'
 import { AuthService } from 'src/app/auth/auth.service'
 
@@ -13,7 +13,9 @@ import { AuthService } from 'src/app/auth/auth.service'
 })
 export class DoctorListComponent implements OnInit {
 
-  tableConfig: CrudTableViewConfig = {
+  doctors = [] as any[]
+
+  tableMeta: CrudTableViewMetadata = {
     indexColumn: {
       width: '5%'
     },
@@ -24,7 +26,6 @@ export class DoctorListComponent implements OnInit {
     columnWidths: ['30%', '20%', '20%', '15%'],
     sortableColumns: new Set<number>([0, 1]),
     properties: ['name', 'speciality', 'number', 'contact'],
-    data: [],
     showEmptyDatasetMessage: true
   }
 
@@ -36,12 +37,12 @@ export class DoctorListComponent implements OnInit {
         'Authorization': `Bearer ${this.auth.user!.token}`
       }
     }).subscribe(
-      (obj: any) => {
-        this.tableConfig = { ...this.tableConfig, data: obj.data }
+      (value: any) => {
+        this.doctors = value.data
       },
       () => {
         const dialog = this.modalService.createInfoDialog('Error', ['Unable to retrieve doctors from server.'])
-        dialog.afterClose().subscribe(() => this.tableConfig.data = [])
+        dialog.afterClose().subscribe(() => this.doctors = [])
         dialog.open()
       }
     )

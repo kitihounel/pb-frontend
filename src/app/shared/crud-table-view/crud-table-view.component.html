@@ -2,49 +2,51 @@
   <table class="table is-striped is-hoverable is-fullwidth">
     <thead>
       <tr>
-        <th *ngIf="config.indexColumn"
-            [style.width]="config.indexColumn.width"
+        <th *ngIf="meta.indexColumn"
+            [style.width]="meta.indexColumn.width"
             class="has-text-right">
           #
         </th>
   
-        <th *ngFor="let name of config.columnNames; index as i"
-            [style.width]="config.columnWidths[i]">
-          <span>
-            <span *ngIf="config.sortableColumns.has(i)"
-                  (click)="sortByProperty(config.properties[i])"
-                  class="icon">
-              <i class="material-icons">swap_vert</i>
-            </span>
+        <th *ngFor="let name of meta.columnNames; index as i"
+            [style.width]="meta.columnWidths[i]">
+          <span class="icon-text">
             <span>{{ name }}</span>
+            
+            <span *ngIf="meta.sortableColumns.has(i)"
+                  (click)="sortByColumn(i)"
+                  class="icon p-2">
+              <i *ngIf="sortColumn === i && columnSortOrder.get(i) === 'asc'"  class="material-icons">arrow_upward</i>
+              <i *ngIf="sortColumn === i && columnSortOrder.get(i) === 'desc'" class="material-icons">arrow_downward</i>
+              <i *ngIf="sortColumn !== i" class="material-icons">swap_vert</i>
+            </span>
           </span>
         </th>
   
-        <th *ngIf="config.actionsColumn"
-            [style.width]="config.actionsColumn.width">
+        <th *ngIf="meta.actionsColumn" [style.width]="meta.actionsColumn.width">
           Actions
         </th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngIf="config.data.length === 0 && config.showEmptyDatasetMessage">
+      <tr *ngIf="data.length === 0 && meta.showEmptyDatasetMessage">
         <td class="has-text-centered"
-            [attr.colspan]="config.columnNames.length + (config.indexColumn ? 1 : 0) + (config.actionsColumn ? 1 : 0)">
+            [attr.colspan]="meta.columnNames.length + (meta.indexColumn ? 1 : 0) + (meta.actionsColumn ? 1 : 0)">
           Na data available
         </td>
       </tr>
 
-      <tr *ngFor="let j of sortOrder; index as i">
-        <td *ngIf="config.indexColumn" class="has-text-right has-text-weight-bold">
+      <tr *ngFor="let j of itemDisplayOrder; index as i">
+        <td *ngIf="meta.indexColumn" class="has-text-right has-text-weight-bold">
           {{ i + 1 }}
         </td>
 
-        <td *ngFor="let prop of config.properties">
-          {{ config.data[j][prop] }}
+        <td *ngFor="let prop of meta.properties">
+          {{ data[j][prop] }}
         </td>
 
-        <td *ngIf="config.actionsColumn">
+        <td *ngIf="meta.actionsColumn">
           <span class="icon">
             <i class="material-icons has-text-info">edit</i>
           </span>

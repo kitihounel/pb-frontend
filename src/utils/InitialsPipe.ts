@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core"
-import { getInitials } from "./functions"
+import { getInitials } from 'src/utils/functions'
 
 @Pipe({ name: 'initials'})
 export default class InitialsPipe implements PipeTransform {

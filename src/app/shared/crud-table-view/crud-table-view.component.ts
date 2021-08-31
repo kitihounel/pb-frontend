@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 
-export interface CrudTableViewConfig {
+export interface CrudTableViewMetadata {
   indexColumn?: {
     width: string
   }
@@ -11,7 +11,6 @@ export interface CrudTableViewConfig {
   columnWidths: string[]
   properties:   string[]
   sortableColumns: Set<number>
-  data: any[]
   showEmptyDatasetMessage?: boolean
 }
 
@@ -22,28 +21,42 @@ export interface CrudTableViewConfig {
 })
 export class CrudTableViewComponent implements OnInit, OnChanges {
 
-  @Input() config!: CrudTableViewConfig
+  @Input() meta!: CrudTableViewMetadata
+  @Input() data!: any[]
 
-  sortOrder = [] as number[]
+  itemDisplayOrder = [] as number[]
+  columnSortOrder = new Map<number, string>()
+  sortColumn: number | undefined
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    const data = changes.config.currentValue.data as any[]
-    this.sortOrder = data.map((v, i) => i)
+    const data = changes.data.currentValue as any[]
+    this.itemDisplayOrder = data.map((v, i) => i)
+    this.sortColumn = undefined
+    this.columnSortOrder.clear()
   }
 
   ngOnInit(): void {
-    this.sortOrder = this.config.data.map((v, i) => i)
+    this.itemDisplayOrder = this.data.map((v, i) => i)
   }
 
-  sortByProperty(prop: string) {
-    const a = this.config.data.map((item, i) => ({ key: item[prop], index: i }))
+  sortByColumn(i: number) {
+    this.sortColumn = i
+    
+    const oldSortOrder = this.columnSortOrder.get(i)
+    const newSortOrder = oldSortOrder === 'desc' || oldSortOrder === undefined ? 'asc' : 'desc'
+    this.columnSortOrder.set(i, newSortOrder)
+
+    const prop = this.meta.properties[i]
+    const a = this.data.map((item, i) => ({ key: item[prop], index: i }))
     a.sort((first, other) => {
+      let o
       if (first.key == other.key)
-        return first.index - other.index
-      return first.key < other.key ? -1 : 1
+        return (first.index - other.index) * (newSortOrder === 'asc' ? 1 : -1)
+      return (first.key < other.key ? -1 : 1) * (newSortOrder === 'asc' ? 1 : -1)
     })
-    this.sortOrder = a.map(item => item.index)
+
+    this.itemDisplayOrder = a.map(item => item.index)
   }
 }
