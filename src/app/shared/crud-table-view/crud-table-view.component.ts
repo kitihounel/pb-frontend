@@ -1,4 +1,15 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
+
+export interface CrudTableViewConfig {
+  indexColumnWidth: string
+  actionsColumnWidth: string
+  columnNames: string[]
+  columnWidths: string[]
+  properties: string[]
+  sortableColumns: Set<number>
+  data: any[]
+  showEmptyDatasetMessage?: boolean
+}
 
 @Component({
   selector: 'app-crud-table-view',
@@ -7,9 +18,10 @@ import { Component, OnInit } from '@angular/core'
 })
 export class CrudTableViewComponent implements OnInit {
 
-  constructor() { }
+  @Input() config!: CrudTableViewConfig
+
+  constructor() {}
 
   ngOnInit(): void {
   }
-
 }

@@ -1,1 +1,38 @@
-<p>crud-table-view works!</p>
+<div class="table-container">
+  <table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <td *ngIf="config.indexColumnWidth"
+            [style.width]="config.indexColumnWidth"
+            class="has-text-left has-text-weight-bold">
+          #
+        </td>
+  
+        <td *ngFor="let name of config.columnNames; index as i"
+            class="has-text-weight-bold"
+            [style.width]="config.columnWidths[i]">
+          <span class="icon-text">
+            <span class="icon">
+              <i class="material-icons">swap_vert</i>
+            </span>
+            <span>{{ name }}</span>
+          </span>
+        </td>
+  
+        <td *ngIf="config.actionsColumnWidth"
+            [style.width]="config.actionsColumnWidth"
+            class="has-text-weight-bold">
+          Actions
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="config.data.length == 0 && config.showEmptyDatasetMessage">
+        <td class="has-text-centered"
+            [attr.colspan]="config.columnNames.length + (config.indexColumnWidth ? 1 : 0) + (config.actionsColumnWidth ? 1 : 0)">
+          Na data available
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
