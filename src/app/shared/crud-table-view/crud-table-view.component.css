@@ -3,5 +3,6 @@
 }
 
 .material-icons {
+  cursor: pointer;
   font-size: 18px;
 }
