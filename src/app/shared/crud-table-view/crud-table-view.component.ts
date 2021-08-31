@@ -42,16 +42,14 @@ export class CrudTableViewComponent implements OnInit, OnChanges {
   }
 
   sortByColumn(i: number) {
-    this.sortColumn = i
-    
     const oldSortOrder = this.columnSortOrder.get(i)
     const newSortOrder = oldSortOrder === 'desc' || oldSortOrder === undefined ? 'asc' : 'desc'
     this.columnSortOrder.set(i, newSortOrder)
+    this.sortColumn = i
 
     const prop = this.meta.properties[i]
     const a = this.data.map((item, i) => ({ key: item[prop], index: i }))
     a.sort((first, other) => {
-      let o
       if (first.key == other.key)
         return (first.index - other.index) * (newSortOrder === 'asc' ? 1 : -1)
       return (first.key < other.key ? -1 : 1) * (newSortOrder === 'asc' ? 1 : -1)
