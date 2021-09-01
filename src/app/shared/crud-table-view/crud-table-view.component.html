@@ -2,37 +2,36 @@
   <table class="table is-striped is-hoverable is-fullwidth">
     <thead>
       <tr>
-        <th *ngIf="meta.indexColumn"
-            [style.width]="meta.indexColumn.width"
-            class="has-text-right">
-          #
-        </th>
+        <th *ngIf="meta.indexColumn" [style.width]="meta.indexColumn.width" class="has-text-right">#</th>
   
-        <th *ngFor="let name of meta.columnNames; index as i"
-            [style.width]="meta.columnWidths[i]">
+        <th *ngFor="let name of meta.columns.names; index as i"
+            [style.width]="meta.columns.widths[i]">
           <span class="icon-text">
             <span>{{ name }}</span>
             
-            <span *ngIf="meta.sortableColumns.has(i)"
-                  (click)="sortByColumn(i)"
-                  class="icon p-2">
-              <i *ngIf="sortColumn === i && columnSortOrder.get(i) === 'asc'"  class="material-icons">arrow_upward</i>
-              <i *ngIf="sortColumn === i && columnSortOrder.get(i) === 'desc'" class="material-icons">arrow_downward</i>
-              <i *ngIf="sortColumn !== i" class="material-icons">swap_vert</i>
+            <span *ngIf="meta.columns.sortable.has(i)" (click)="sortByColumn(i)" class="icon">
+              <ng-container *ngIf="sortColumn === i; else swap">
+                <i *ngIf="columnSortOrder.get(i) === 'asc'; else desc" class="material-icons">arrow_upward</i>
+                <ng-template #desc>
+                  <i class="material-icons" #desc>arrow_downward</i>
+                </ng-template>
+              </ng-container>
+
+              <ng-template #swap>
+                <i *ngIf="sortColumn !== i" class="material-icons">swap_vert</i>
+              </ng-template>
             </span>
           </span>
         </th>
   
-        <th *ngIf="meta.actionsColumn" [style.width]="meta.actionsColumn.width">
-          Actions
-        </th>
+        <th *ngIf="meta.actionColumn" [style.width]="meta.actionColumn.width">Actions</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngIf="data.length === 0 && meta.showEmptyDatasetMessage">
-        <td class="has-text-centered"
-            [attr.colspan]="meta.columnNames.length + (meta.indexColumn ? 1 : 0) + (meta.actionsColumn ? 1 : 0)">
+      <tr *ngIf="!data.length && meta.showEmptyDatasetMessage">
+        <td [attr.colspan]="meta.columns.names.length + (+!!meta.indexColumn) + (+!!meta.actionColumn)"
+            class="has-text-centered">
           Na data available
         </td>
       </tr>
@@ -43,10 +42,15 @@
         </td>
 
         <td *ngFor="let prop of meta.properties">
-          {{ data[j][prop] }}
+          <ng-container *ngIf="!isBoolean(data[j][prop]); else checkbox">
+            {{ data[j][prop] }}
+          </ng-container>
+          <ng-template #checkbox>
+            <input type="checkbox" [checked]="data[j][prop]">
+          </ng-template>
         </td>
 
-        <td *ngIf="meta.actionsColumn">
+        <td *ngIf="meta.actionColumn">
           <span class="icon">
             <i class="material-icons has-text-info">edit</i>
           </span>

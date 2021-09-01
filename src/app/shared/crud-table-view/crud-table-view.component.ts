@@ -1,18 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-
-export interface CrudTableViewMetadata {
-  indexColumn?: {
-    width: string
-  }
-  actionsColumn?: {
-    width: string
-  }
-  columnNames:  string[]
-  columnWidths: string[]
-  properties:   string[]
-  sortableColumns: Set<number>
-  showEmptyDatasetMessage?: boolean
-}
+import CrudTableViewMetadata from './crud-table-view-metadata'
 
 @Component({
   selector: 'app-crud-table-view',
@@ -32,9 +19,9 @@ export class CrudTableViewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const data = changes.data.currentValue as any[]
-    this.itemDisplayOrder = data.map((v, i) => i)
     this.sortColumn = undefined
     this.columnSortOrder.clear()
+    this.itemDisplayOrder = data.map((v, i) => i)
   }
 
   ngOnInit(): void {
@@ -44,17 +31,22 @@ export class CrudTableViewComponent implements OnInit, OnChanges {
   sortByColumn(i: number) {
     const oldSortOrder = this.columnSortOrder.get(i)
     const newSortOrder = oldSortOrder === 'desc' || oldSortOrder === undefined ? 'asc' : 'desc'
-    this.columnSortOrder.set(i, newSortOrder)
-    this.sortColumn = i
-
+    
     const prop = this.meta.properties[i]
     const a = this.data.map((item, i) => ({ key: item[prop], index: i }))
     a.sort((first, other) => {
-      if (first.key == other.key)
-        return (first.index - other.index) * (newSortOrder === 'asc' ? 1 : -1)
-      return (first.key < other.key ? -1 : 1) * (newSortOrder === 'asc' ? 1 : -1)
+      const inv = newSortOrder === 'asc' ? 1 : -1
+      if (first.key === other.key)
+        return (first.index - other.index) * inv
+      return (first.key < other.key ? -1 : 1) * inv
     })
-
+    
+    this.columnSortOrder.set(i, newSortOrder)
+    this.sortColumn = i
     this.itemDisplayOrder = a.map(item => item.index)
+  }
+
+  isBoolean(value: any) {
+    return typeof value === 'boolean'
   }
 }
