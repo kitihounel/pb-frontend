@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { AuthService, User } from '../auth/auth.service'
+import { AuthService, AuthUser } from '../auth/auth.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -8,7 +8,7 @@ import { AuthService, User } from '../auth/auth.service'
 })
 export class DashboardComponent implements OnInit {
 
-  user: User
+  user: AuthUser
 
   constructor(public authServive: AuthService) {
     this.user = authServive.user!

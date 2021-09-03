@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
 import { environment as env } from 'src/environments/environment'
 
-export interface User {
+export interface AuthUser {
   username: string
   name: string
   role: string
@@ -16,7 +16,7 @@ export interface User {
 })
 export class AuthService {
 
-  private _user: User | undefined
+  private _user: AuthUser | undefined
 
   redirectUrl = ''
 
@@ -26,7 +26,7 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean> {
     const url = `${env.apiUrl}/login`
     const payload = { username, password } 
-    return this.http.post<User>(url, payload).pipe(
+    return this.http.post<AuthUser>(url, payload).pipe(
       tap((user) => this.setUser(user)),
       map(() => true)
     )
@@ -38,7 +38,7 @@ export class AuthService {
       return of(false)
 
     const url = `${env.apiUrl}/user`
-    return this.http.get<User>(url, {
+    return this.http.get<AuthUser>(url, {
       headers: { authorization: `Bearer ${token}` }
     }).pipe(
       tap((user) => this.setUser(user)),
@@ -55,7 +55,7 @@ export class AuthService {
     return this._user
   }
 
-  private setUser(user: User) {
+  private setUser(user: AuthUser) {
     this._user = user
     localStorage.setItem('apiToken', user.token)
   }

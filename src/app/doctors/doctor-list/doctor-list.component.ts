@@ -5,6 +5,15 @@ import { ModalService } from 'src/app/modal/modal.service'
 import CrudTableViewMetadata from "src/app/shared/crud-table-view/crud-table-view-metadata"
 import { environment as env } from 'src/environments/environment'
 import { AuthService } from 'src/app/auth/auth.service'
+import Doctor from "src/app/models/doctor"
+
+interface ApiResponse {
+  data: Doctor[]
+  currentPage: number
+  from: number
+  lastPage: number
+  to: number
+}
 
 @Component({
   selector: 'app-doctor-list',
@@ -13,7 +22,9 @@ import { AuthService } from 'src/app/auth/auth.service'
 })
 export class DoctorListComponent implements OnInit {
 
-  doctors = [] as any[]
+  doctors = [] as Doctor[]
+  currentPage = 1
+  lastPage = 1
 
   tableMeta: CrudTableViewMetadata = {
     indexColumn: {
@@ -34,12 +45,16 @@ export class DoctorListComponent implements OnInit {
   constructor(private modalService: ModalService, private http: HttpClient, private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.http.get(`${env.apiUrl}/doctors`, {
+    this.http.get<ApiResponse>(`${env.apiUrl}/doctors`, {
       'headers': {
         'Authorization': `Bearer ${this.auth.user!.token}`
       }
     }).subscribe(
-      (value: any) => this.doctors = value.data,
+      (value) => {
+        this.doctors = value.data
+        this.currentPage = value.currentPage
+        this.lastPage = value.lastPage
+      },
       () => {
         const dialog = this.modalService.createInfoDialog('Error', ['Unable to retrieve doctors from server.'])
         dialog.afterClose().subscribe(() => this.doctors = [])
@@ -49,5 +64,6 @@ export class DoctorListComponent implements OnInit {
   }
 
   onPageChange($event: any) {
-  } 
+    console.log('page changed', $event)
+  }
 }
