@@ -51,10 +51,10 @@
         </td>
 
         <td *ngIf="meta.actionColumn">
-          <span class="icon">
+          <span (click)="emitActionEvent(j, 'edit')" class="icon">
             <i class="material-icons has-text-info">edit</i>
           </span>
-          <span class="icon">
+          <span (click)="emitActionEvent(j, 'delete')" class="icon">
             <i class="material-icons has-text-danger">delete</i>
           </span>
         </td>

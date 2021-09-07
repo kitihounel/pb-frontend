@@ -2,14 +2,18 @@
   <h3 class="title pb-1">Doctors</h3>
 
   <div class="mb-4">
-    <app-crud-table-view [data]="doctors" [meta]="tableMeta"></app-crud-table-view>
+    <app-crud-table-view
+        [data]="doctors"
+        [meta]="tableMeta"
+        (notify)="onTableEvent($event)">
+    </app-crud-table-view>
   </div>
 
   <div>
     <app-pagination
-      [startPage]="1"
-      [maxPage]="lastPage"
-      (notify)="onPageChange($event)">
+      [(page)]="currentPage"
+      [(maxPage)]="lastPage"
+      (pageChange)="onPageChange($event)">
     </app-pagination>
   </div>
 </section>

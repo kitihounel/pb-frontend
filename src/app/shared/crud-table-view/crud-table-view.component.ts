@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import CrudTableViewMetadata from './crud-table-view-metadata'
 
 @Component({
@@ -10,6 +10,8 @@ export class CrudTableViewComponent implements OnInit, OnChanges {
 
   @Input() meta!: CrudTableViewMetadata
   @Input() data!: any[]
+
+  @Output() notify = new EventEmitter<{ index: number, action: 'edit' | 'delete' }>()
 
   itemDisplayOrder = [] as number[]
   columnSortOrder = new Map<number, string>()
@@ -48,5 +50,9 @@ export class CrudTableViewComponent implements OnInit, OnChanges {
 
   isBoolean(value: any) {
     return typeof value === 'boolean'
+  }
+
+  emitActionEvent(index: number, action: 'edit' | 'delete') {
+    this.notify.emit({ index, action })
   }
 }

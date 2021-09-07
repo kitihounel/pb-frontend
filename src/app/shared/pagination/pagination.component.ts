@@ -7,53 +7,50 @@ import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef }
 })
 export class PaginationComponent implements OnInit {
 
-  @Input() startPage!: number
+  @Input() page!: number
   @Input() maxPage!: number
 
-  page!: number
-
-  @Output() notify = new EventEmitter<number>()
+  @Output() pageChange = new EventEmitter<number>()
+  @Output() maxPageChange = new EventEmitter<number>()
 
   @ViewChild('input', { static: true }) input!: ElementRef
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.page = this.startPage
-  }
+  ngOnInit(): void {}
 
   onFirst() {
     this.page = 1
-    this.emitChangeEvent()
+    this.emitPageChangeEvent()
   }
 
   onPrevious() {
     this.page -= 1
-    this.emitChangeEvent()
+    this.emitPageChangeEvent()
   }
 
   onNext() {
     this.page += 1
-    this.emitChangeEvent()
+    this.emitPageChangeEvent()
   }
 
   onLast() {
     this.page = this.maxPage
-    this.emitChangeEvent()
+    this.emitPageChangeEvent()
   }
 
   onInput() {
     const el = this.input.nativeElement as HTMLInputElement
-    if (el.validity.valid) {
-      const value = parseInt(el.value)
-      if (!isNaN(value)) {
-        this.page = value
-        this.emitChangeEvent()
-      }
+    if (!el.validity.valid)
+      return
+    const value = parseInt(el.value)
+    if (isNaN(value)) {
+      this.page = value
+      this.emitPageChangeEvent()
     }
   }
 
-  private emitChangeEvent() {
-    this.notify.emit(this.page)
+  private emitPageChangeEvent() {
+    this.pageChange.emit(this.page)
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { catchError, map } from 'rxjs/operators'
 
 import { ModalService } from 'src/app/modal/modal.service'
 import CrudTableViewMetadata from "src/app/shared/crud-table-view/crud-table-view-metadata"
@@ -42,18 +43,34 @@ export class DoctorListComponent implements OnInit {
     showEmptyDatasetMessage: true
   }
 
-  constructor(private modalService: ModalService, private http: HttpClient, private auth: AuthService) {}
+  constructor(
+    private modalService: ModalService,
+    private http: HttpClient,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.http.get<ApiResponse>(`${env.apiUrl}/doctors`, {
-      'headers': {
-        'Authorization': `Bearer ${this.auth.user!.token}`
-      }
-    }).subscribe(
-      (value) => {
-        this.doctors = value.data
-        this.currentPage = value.currentPage
-        this.lastPage = value.lastPage
+    this.fetchDoctors(this.getLastVisitedPage())
+  }
+
+  onPageChange(page: number) {
+    this.fetchDoctors(page)
+  }
+
+  fetchDoctors(page: number) {
+    this.doFetch(page.toString()).pipe(
+      map(response => {
+        if (page > response.lastPage)
+          throw new Error('Invalid page')
+        return response
+      }),
+      catchError(() => this.doFetch('1'))
+    ).subscribe(
+      response => {
+        this.doctors = response.data
+        this.setCurrentPage(response.currentPage)
+        this.setLastPage(response.lastPage)
+        this.storeLastPage(response.currentPage.toString())
       },
       () => {
         const dialog = this.modalService.createInfoDialog('Error', ['Unable to retrieve doctors from server.'])
@@ -63,7 +80,34 @@ export class DoctorListComponent implements OnInit {
     )
   }
 
-  onPageChange($event: any) {
-    console.log('page changed', $event)
+  setCurrentPage(page: number) {
+    this.currentPage = page
   }
+
+  setLastPage(page: number) {
+    this.lastPage = page
+  }
+
+  storeLastPage(page: string) {
+    localStorage.setItem('doctors:last-page', page)
+  }
+
+  getLastVisitedPage() {
+    return parseInt(
+      localStorage.getItem('doctors:last-page') || '1'
+    )
+  }
+
+  onTableEvent(ev: any) {
+    console.log('table event', ev)
+  }
+
+  private doFetch(page: string) {
+    return this.http.get<ApiResponse>(`${env.apiUrl}/doctors`, {
+      headers: {
+        'Authorization': `Bearer ${this.auth.user!.token}`
+      },
+      params: { page }
+    })
+  }  
 }
