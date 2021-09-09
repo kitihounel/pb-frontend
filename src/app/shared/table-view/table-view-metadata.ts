@@ -1,10 +1,13 @@
-export default interface CrudTableViewMetadata {
+export interface TableViewMetadata {
   indexColumn?: {
     width: string
   }
 
   actionColumn?: {
     width: string
+    show?: boolean
+    edit?: boolean
+    delete?: boolean
   }
 
   columns: {

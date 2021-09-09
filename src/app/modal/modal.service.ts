@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core'
 import { DomService } from '../dom.service'
+
 import { ConfirmDialogComponent } from './confirm-dilaog/confirm-dialog.component'
+import { DialogContent } from './generic-dialog/dialog-content'
+import { GenericDialogComponent } from './generic-dialog/generic-dialog.component'
 import { InformationDialogComponent } from './information-dialog/information-dialog.component'
 import { PromptDialogComponent } from './prompt-dialog/prompt-dialog.component'
 
@@ -17,6 +20,7 @@ export class ModalService {
 
     const comp = compRef.instance as InformationDialogComponent
     comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+
     return comp
   }
 
@@ -26,6 +30,7 @@ export class ModalService {
 
     const comp = compRef.instance as ConfirmDialogComponent
     comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+
     return comp
   }
 
@@ -35,6 +40,18 @@ export class ModalService {
 
     const comp = compRef.instance as PromptDialogComponent
     comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+
+    return comp
+  }
+
+  createGenericDialog(title: string, content: DialogContent) {
+    const compRef = this.domService.createComponent(GenericDialogComponent, { title })
+    this.domService.attachComponent(compRef, document.body, 'beforeend')
+
+    const comp = compRef.instance as GenericDialogComponent
+    comp.loadComponent(content)
+    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
+
     return comp
   }
 }

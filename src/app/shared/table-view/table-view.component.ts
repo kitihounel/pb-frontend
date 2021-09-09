@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
-import CrudTableViewMetadata from './crud-table-view-metadata'
+import { TableViewEvent } from './table-view-event'
+import { TableViewMetadata } from './table-view-metadata'
 
 @Component({
-  selector: 'app-crud-table-view',
-  templateUrl: './crud-table-view.component.html',
-  styleUrls: ['./crud-table-view.component.css']
+  selector: 'app-table-view',
+  templateUrl: './table-view.component.html',
+  styleUrls: ['./table-view.component.css']
 })
-export class CrudTableViewComponent implements OnInit, OnChanges {
+export class TableViewComponent implements OnInit, OnChanges {
 
-  @Input() meta!: CrudTableViewMetadata
+  @Input() meta!: TableViewMetadata
   @Input() data!: any[]
 
-  @Output() notify = new EventEmitter<{ index: number, action: 'edit' | 'delete' }>()
+  @Output() notify = new EventEmitter<TableViewEvent>()
 
   itemDisplayOrder = [] as number[]
   columnSortOrder = new Map<number, string>()
@@ -52,7 +53,7 @@ export class CrudTableViewComponent implements OnInit, OnChanges {
     return typeof value === 'boolean'
   }
 
-  emitActionEvent(index: number, action: 'edit' | 'delete') {
-    this.notify.emit({ index, action })
+  emitActionEvent(row: number, action: 'edit' | 'delete' | 'show') {
+    this.notify.emit({ row, action })
   }
 }

@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { PaginationComponent } from './pagination/pagination.component'
-import { CrudTableViewComponent } from './crud-table-view/crud-table-view.component'
+import { PaginationComponent } from 'src/app/shared/pagination/pagination.component'
+import { TableViewComponent } from 'src/app/shared/table-view/table-view.component'
 
 @NgModule({
   declarations: [
     PaginationComponent,
-    CrudTableViewComponent
+    TableViewComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
     PaginationComponent,
-    CrudTableViewComponent
+    TableViewComponent
   ]
 })
 export class SharedModule {}

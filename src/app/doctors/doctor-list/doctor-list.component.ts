@@ -3,10 +3,13 @@ import { HttpClient } from '@angular/common/http'
 import { catchError, map } from 'rxjs/operators'
 
 import { ModalService } from 'src/app/modal/modal.service'
-import CrudTableViewMetadata from "src/app/shared/crud-table-view/crud-table-view-metadata"
+import { TableViewMetadata } from "src/app/shared/table-view/table-view-metadata"
 import { environment as env } from 'src/environments/environment'
 import { AuthService } from 'src/app/auth/auth.service'
-import Doctor from "src/app/models/doctor"
+import { Doctor } from "src/app/models/doctor"
+import { TableViewEvent } from 'src/app/shared/table-view/table-view-event'
+import { DialogContent } from 'src/app/modal/generic-dialog/dialog-content'
+import { DoctorDetailsComponent } from '../doctor-details/doctor-details.component'
 
 interface ApiResponse {
   data: Doctor[]
@@ -27,16 +30,19 @@ export class DoctorListComponent implements OnInit {
   currentPage = 1
   lastPage = 1
 
-  tableMeta: CrudTableViewMetadata = {
+  tableMeta: TableViewMetadata = {
     indexColumn: {
       width: '5%'
     },
     actionColumn: {
-      width: '10%'
+      width: '10%',
+      show: true,
+      edit: true,
+      delete: true
     },
     columns: {
       names: ['Name', 'Speciality', 'Number', 'Contact'],
-      widths: ['25%', '25%', '20%', '15%'],
+      widths: ['25%', '20%', '20%', '20%'],
       sortable: new Set<number>([0, 1]),
     },
     properties: ['name', 'speciality', 'number', 'contact'],
@@ -98,8 +104,14 @@ export class DoctorListComponent implements OnInit {
     )
   }
 
-  onTableEvent(ev: any) {
+  onTableEvent(ev: TableViewEvent) {
     console.log('table event', ev)
+    if (ev.action !== 'show')
+      return
+    const doctor = this.doctors[ev.row]
+    const content = new DialogContent(DoctorDetailsComponent, doctor)
+    const comp = this.modalService.createGenericDialog('Doctor details', content)
+    comp.open()
   }
 
   private doFetch(page: string) {

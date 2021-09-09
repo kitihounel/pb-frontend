@@ -2,11 +2,11 @@
   <h3 class="title pb-1">Doctors</h3>
 
   <div class="mb-4">
-    <app-crud-table-view
+    <app-table-view
         [data]="doctors"
         [meta]="tableMeta"
         (notify)="onTableEvent($event)">
-    </app-crud-table-view>
+    </app-table-view>
   </div>
 
   <div>

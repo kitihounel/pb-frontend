@@ -1,0 +1,7 @@
+.modal-background {
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
+button.delete:focus {
+  background-color: #f14668;
+}

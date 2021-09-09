@@ -36,25 +36,28 @@
         </td>
       </tr>
 
-      <tr *ngFor="let j of itemDisplayOrder; index as i">
+      <tr *ngFor="let row of itemDisplayOrder; index as i">
         <td *ngIf="meta.indexColumn" class="has-text-right has-text-weight-bold">
           {{ i + 1 }}
         </td>
 
         <td *ngFor="let prop of meta.properties">
-          <ng-container *ngIf="!isBoolean(data[j][prop]); else checkbox">
-            {{ data[j][prop] }}
+          <ng-container *ngIf="!isBoolean(data[row][prop]); else checkbox">
+            {{ data[row][prop] }}
           </ng-container>
           <ng-template #checkbox>
-            <input type="checkbox" [checked]="data[j][prop]">
+            <input type="checkbox" [checked]="data[row][prop]">
           </ng-template>
         </td>
 
         <td *ngIf="meta.actionColumn">
-          <span (click)="emitActionEvent(j, 'edit')" class="icon">
+          <span *ngIf="meta.actionColumn?.show" (click)="emitActionEvent(row, 'show')" class="icon">
+            <i class="material-icons has-text-success">visibility</i>
+          </span>
+          <span *ngIf="meta.actionColumn?.edit" (click)="emitActionEvent(row, 'edit')" class="icon">
             <i class="material-icons has-text-info">edit</i>
           </span>
-          <span (click)="emitActionEvent(j, 'delete')" class="icon">
+          <span *ngIf="meta.actionColumn?.delete" (click)="emitActionEvent(row, 'delete')" class="icon">
             <i class="material-icons has-text-danger">delete</i>
           </span>
         </td>
