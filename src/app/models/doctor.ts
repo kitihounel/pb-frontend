@@ -2,6 +2,6 @@ export interface Doctor {
   id: string
   name: string
   speciality: string
-  number: string
-  contact: string
+  medCouncilId: string
+  phoneNumber: string
 }

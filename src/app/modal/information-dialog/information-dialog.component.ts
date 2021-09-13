@@ -8,6 +8,7 @@ import { Subject } from 'rxjs'
 })
 export class InformationDialogComponent implements OnInit {
 
+  @ViewChild('el', { static: true }) el!: ElementRef
   @ViewChild('defaultNode', { static: true }) defaultNode!: ElementRef
 
   title   = ''

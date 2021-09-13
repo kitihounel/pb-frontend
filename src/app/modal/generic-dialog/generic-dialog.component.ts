@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core'
+import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { Subject } from 'rxjs'
 import { DialogContent } from './dialog-content'
 import { DialogContentHostDirective } from './dialog-content-host.directive'
@@ -10,36 +10,36 @@ import { DialogContentHostDirective } from './dialog-content-host.directive'
 })
 export class GenericDialogComponent implements OnInit {
 
-  active = false
   title = ''
 
-  @ViewChild(DialogContentHostDirective, { static: true })
-  contentHost!: DialogContentHostDirective
+  @ViewChild(DialogContentHostDirective, { static: true }) contentHost!: DialogContentHostDirective
+  @ViewChild('defaultNode', { static: true }) defaultNode!: ElementRef
+  @ViewChild('el', { static: true }) el!: ElementRef
+
+  private content!: DialogContent
 
   private closeSubject = new Subject<boolean>()
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver
+    private resolver: ComponentFactoryResolver
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadComponent()
+  }
 
-  loadComponent(content: DialogContent) {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(content.component)
+  private loadComponent() {
+    const componentFactory = this.resolver.resolveComponentFactory(this.content.component)
 
     const viewContainerRef = this.contentHost.viewContainerRef
     viewContainerRef.clear()
 
     const componentRef = viewContainerRef.createComponent<any>(componentFactory)
-    componentRef.instance.data = content.data
-  }
-
-  open() {
-    this.active = true
+    componentRef.instance.data = this.content.data
   }
 
   close() {
-    this.active = false
+    this.el.nativeElement.classList.remove('is-active')
     this.closeSubject.next(true)
   }
 

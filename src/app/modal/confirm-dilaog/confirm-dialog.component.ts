@@ -8,11 +8,12 @@ import { Subject } from 'rxjs'
 })
 export class ConfirmDialogComponent implements OnInit {
 
+  @ViewChild('el', { static: true }) el!: ElementRef
   @ViewChild('defaultNode', { static: true }) defaultNode!: ElementRef
 
   title   = ''
   content = [] as string[]
-  active  = false
+  active  = true
 
   private closeSubject = new Subject<boolean>()
 
@@ -26,11 +27,6 @@ export class ConfirmDialogComponent implements OnInit {
       this.close(false)
     if (event.key === 'Enter')
       this.close(true)
-  }
-
-  open() {
-    this.active = true
-    this.defaultNode.nativeElement.focus()
   }
 
   close(b: boolean) {

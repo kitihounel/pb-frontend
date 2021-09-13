@@ -16,42 +16,61 @@ export class ModalService {
 
   createInfoDialog(title: string, content: string[]) {
     const compRef = this.domService.createComponent(InformationDialogComponent, { title, content })
-    this.domService.attachComponent(compRef, document.body, 'beforeend')
+    const dialog = compRef.instance as InformationDialogComponent
+    const closed = dialog.afterClose()
+    closed.subscribe(() => this.domService.removeComponent(compRef))
 
-    const comp = compRef.instance as InformationDialogComponent
-    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
-
-    return comp
+    return {
+      closed,
+      open: () => {
+        this.domService.attachComponent(compRef, document.body, 'beforeend')
+        dialog.defaultNode.nativeElement.focus()
+      }
+    }
   }
 
   createConfirmDialog(title: string, content: string[]) {
     const compRef = this.domService.createComponent(ConfirmDialogComponent, { title, content })
-    this.domService.attachComponent(compRef, document.body, 'beforeend')
+    const dialog = compRef.instance as ConfirmDialogComponent
+    const closed = dialog.afterClose()
+    closed.subscribe(() => this.domService.removeComponent(compRef))
 
-    const comp = compRef.instance as ConfirmDialogComponent
-    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
-
-    return comp
+    return {
+      closed,
+      open: () => {
+        this.domService.attachComponent(compRef, document.body, 'beforeend')
+        dialog.defaultNode.nativeElement.focus()
+      }
+    }
   }
 
   createPromptDialog(title: string, content: string[]) {
     const compRef = this.domService.createComponent(PromptDialogComponent, { title, content })
-    this.domService.attachComponent(compRef, document.body, 'beforeend')
+    const dialog = compRef.instance as PromptDialogComponent
+    const closed = dialog.afterClose()
+    closed.subscribe(() => this.domService.removeComponent(compRef))
 
-    const comp = compRef.instance as PromptDialogComponent
-    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
-
-    return comp
+    return {
+      closed,
+      open: () => {
+        this.domService.attachComponent(compRef, document.body, 'beforeend')
+        dialog.defaultNode.nativeElement.focus()
+      }
+    }
   }
 
   createGenericDialog(title: string, content: DialogContent) {
-    const compRef = this.domService.createComponent(GenericDialogComponent, { title })
-    this.domService.attachComponent(compRef, document.body, 'beforeend')
+    const compRef = this.domService.createComponent(GenericDialogComponent, { title, content })
+    const dialog = compRef.instance as GenericDialogComponent
+    const closed = dialog.afterClose()
+    closed.subscribe(() => this.domService.removeComponent(compRef))
 
-    const comp = compRef.instance as GenericDialogComponent
-    comp.loadComponent(content)
-    comp.afterClose().subscribe(() => this.domService.removeComponent(compRef))
-
-    return comp
+    return {
+      closed,
+      open: () => {
+        this.domService.attachComponent(compRef, document.body, 'beforeend')
+        dialog.defaultNode.nativeElement.focus()
+      }
+    }
   }
 }

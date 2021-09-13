@@ -1,4 +1,4 @@
-<div class="modal" [class.is-active]="active">
+<div class="modal is-active" [trapFocus]="this" #el>
   <div class="modal-background" (click)="close()"></div>
   <div class="modal-content">
     <div class="message">
@@ -11,7 +11,9 @@
         <ng-template contentHost></ng-template>
         
         <div class="buttons is-right">
-          <button class="button is-success has-text-weight-bold mt-4" (click)="close()">Close</button>
+          <button class="button is-success has-text-weight-bold mt-4" (click)="close()" #defaultNode>
+            Close
+          </button>
         </div>
       </div>
     </div>

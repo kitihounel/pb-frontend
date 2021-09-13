@@ -41,11 +41,11 @@ export class DoctorListComponent implements OnInit {
       delete: true
     },
     columns: {
-      names: ['Name', 'Speciality', 'Number', 'Contact'],
+      names: ['Name', 'Speciality', 'Council ID', 'Phone number'],
       widths: ['25%', '20%', '20%', '20%'],
       sortable: new Set<number>([0, 1]),
     },
-    properties: ['name', 'speciality', 'number', 'contact'],
+    properties: ['name', 'speciality', 'medCouncilId', 'phoneNumber'],
     showEmptyDatasetMessage: true
   }
 
@@ -80,7 +80,7 @@ export class DoctorListComponent implements OnInit {
       },
       () => {
         const dialog = this.modalService.createInfoDialog('Error', ['Unable to retrieve doctors from server.'])
-        dialog.afterClose().subscribe(() => this.doctors = [])
+        dialog.closed.subscribe(() => this.doctors = [])
         dialog.open()
       }
     )
@@ -105,13 +105,19 @@ export class DoctorListComponent implements OnInit {
   }
 
   onTableEvent(ev: TableViewEvent) {
-    console.log('table event', ev)
-    if (ev.action !== 'show')
-      return
-    const doctor = this.doctors[ev.row]
-    const content = new DialogContent(DoctorDetailsComponent, doctor)
-    const comp = this.modalService.createGenericDialog('Doctor details', content)
-    comp.open()
+    switch (ev.action) {
+      case 'show':
+        const doctor = this.doctors[ev.row]
+        const content = new DialogContent(DoctorDetailsComponent, doctor)
+        const dialog = this.modalService.createGenericDialog('Doctor details', content)
+
+        dialog.closed.subscribe(() => console.log('closed shit...'))
+        dialog.open()
+        break
+      case 'delete':
+      case 'edit':
+        break
+    }
   }
 
   private doFetch(page: string) {

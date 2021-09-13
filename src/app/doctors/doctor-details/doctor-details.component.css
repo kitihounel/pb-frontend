@@ -1,0 +1,9 @@
+.field .control:nth-child(1) {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  width: 180px;
+}
+
+.field .control:nth-child(2) {
+  flex-grow: 1.0;
+}

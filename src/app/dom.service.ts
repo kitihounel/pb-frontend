@@ -20,14 +20,14 @@ export class DomService {
     private injector: Injector
   ) {}
 
-  createComponent(component: any, componentProps?: object) {
+  createComponent(component: any, props?: object) {
     // 1. Create a component reference from the component 
     const componentRef = this.componentFactoryResolver
       .resolveComponentFactory(component)
       .create(this.injector)
 
-    if (componentProps && typeof componentRef.instance === 'object')
-      Object.assign(componentRef.instance as object, componentProps)
+    if (props && typeof componentRef.instance === 'object')
+      Object.assign(componentRef.instance as object, props)
 
     return componentRef
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, HostListener, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -13,10 +13,9 @@ export class PromptDialogComponent implements OnInit {
 
   title   = ''
   content = [] as string[]
-  active  = false
   text = ''
 
-  private closeSubject = new Subject<unknown>()
+  private closeSubject = new Subject<{ accept: boolean, value: string }>()
 
   constructor() {}
 
@@ -30,13 +29,8 @@ export class PromptDialogComponent implements OnInit {
       this.close(true)
   }
 
-  open() {
-    this.active = true
-    this.defaultNode.nativeElement.focus()
-  }
-
   close(b: boolean) {
-    this.active = false
+    this.el.nativeElement.classList.remove('is-active')
     this.closeSubject.next({ accept: b, value: this.text.trim() })
   }
 
