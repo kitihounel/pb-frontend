@@ -2,6 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Georama&family=JetBrains+Mono&display=swap');
 
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(/assets/fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
 html {
   height: 100%;
 }
@@ -11,4 +20,30 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, "Helvetica Neue", sans-serif;
   font-size: 16px;
   line-height: 1.5;
+}
+
+/* This is required by material icons */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
